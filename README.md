@@ -1,1 +1,1 @@
-# com.zumstudios.carriersubscription
+# com.zumstudios.zumpass.unity
