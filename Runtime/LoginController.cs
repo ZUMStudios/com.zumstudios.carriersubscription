@@ -7,6 +7,8 @@ namespace com.zumstudios.carriersubscription
 {
     public class LoginController : MonoBehaviour
     {
+        public static LoginMethod CurrentLoginMethod;
+
         public virtual void RevalidateLogin()
         {
             var userInfo = UserInfo.Load();
@@ -38,11 +40,15 @@ namespace com.zumstudios.carriersubscription
             Action<string> onError
         )
         {
+            CurrentLoginMethod = LoginMethod.DigitalVirgo;
+
             CarrierSubscription.Instance.LoginDigitalVirgo(
                 phoneNumber,
                 OnLoginSuccess,
                 message =>
                 {
+                    CurrentLoginMethod = LoginMethod.Kliento;
+
                     CarrierSubscription.Instance.LoginKliento(
                         phoneNumber,
                         null,
@@ -60,6 +66,8 @@ namespace com.zumstudios.carriersubscription
             Action<string> onError
         )
         {
+            CurrentLoginMethod = LoginMethod.KlientoWithPassword;
+
             CarrierSubscription.Instance.LoginKliento(
                 phoneNumber,
                 password,
