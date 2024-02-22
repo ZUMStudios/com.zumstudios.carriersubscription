@@ -29,7 +29,7 @@ namespace com.zumstudios.carriersubscription
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(this);
-            PlayerPrefs.SetString(Constants.USERINFO_SAVED_DATA, jsonString);
+            PlayerPrefs.SetString(CarrierSubscriptionConstants.USERINFO_SAVED_DATA, jsonString);
             PlayerPrefs.Save();
         }
 
@@ -37,7 +37,9 @@ namespace com.zumstudios.carriersubscription
         {
             try
             {
-                var jsonString = PlayerPrefs.GetString(Constants.USERINFO_SAVED_DATA);
+                var jsonString = PlayerPrefs.GetString(
+                    CarrierSubscriptionConstants.USERINFO_SAVED_DATA
+                );
                 return JsonConvert.DeserializeObject<UserInfo>(jsonString);
             }
             catch (Exception)
@@ -48,7 +50,7 @@ namespace com.zumstudios.carriersubscription
 
         public static void Delete()
         {
-            PlayerPrefs.DeleteKey(Constants.USERINFO_SAVED_DATA);
+            PlayerPrefs.DeleteKey(CarrierSubscriptionConstants.USERINFO_SAVED_DATA);
             PlayerPrefs.Save();
         }
     }

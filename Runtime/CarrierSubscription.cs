@@ -87,7 +87,7 @@ namespace com.zumstudios.carriersubscription
         )
         {
             var numberWithCountryCode = $"%2b{phoneNumber}";
-            var url = new StringBuilder().Append(Constants.DIGITAL_VIRGO_URL);
+            var url = new StringBuilder().Append(CarrierSubscriptionConstants.DIGITAL_VIRGO_URL);
             url.Replace("{PHONE_NUMBER}", numberWithCountryCode);
             url.Replace("{MCM_ID}", _mcmId.ToString());
 
@@ -164,7 +164,12 @@ namespace com.zumstudios.carriersubscription
             Action<string> onError
         )
         {
-            if (string.Equals(user.status, Constants.DIGITAL_VIRGO_ACTIVE_STATUS_LABEL))
+            if (
+                string.Equals(
+                    user.status,
+                    CarrierSubscriptionConstants.DIGITAL_VIRGO_ACTIVE_STATUS_LABEL
+                )
+            )
             {
                 if (string.IsNullOrEmpty(user.termination_date))
                 {
@@ -200,11 +205,11 @@ namespace com.zumstudios.carriersubscription
 
             if (string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
             {
-                url.Append(Constants.KLIENTO_DEFAULT_URL);
+                url.Append(CarrierSubscriptionConstants.KLIENTO_DEFAULT_URL);
             }
             else
             {
-                url.Append(Constants.KLIENTO_VALIDATOR_URL);
+                url.Append(CarrierSubscriptionConstants.KLIENTO_VALIDATOR_URL);
                 url.Replace("{VALIDATOR}", EncryptionHelper.Encrypt(password));
                 userInfo.password = password;
             }
@@ -302,7 +307,7 @@ namespace com.zumstudios.carriersubscription
                         {
                             isSubscribed = string.Equals(
                                 capacities.status_label,
-                                Constants.KLIENTO_SUBSCRIBED_STATUS_LABEL
+                                CarrierSubscriptionConstants.KLIENTO_SUBSCRIBED_STATUS_LABEL
                             );
                         }
                     }

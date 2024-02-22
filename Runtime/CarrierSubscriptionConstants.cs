@@ -1,6 +1,6 @@
 namespace com.zumstudios.carriersubscription
 {
-    public static class Constants
+    public static class CarrierSubscriptionConstants
     {
         public const string DIGITAL_VIRGO_URL =
             "https://opm.jmeservicios.com/public/mcm/api/account/{MCM_ID}?msisdn={PHONE_NUMBER}";
