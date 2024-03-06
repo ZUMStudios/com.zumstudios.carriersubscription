@@ -181,6 +181,7 @@ namespace com.zumstudios.carriersubscription
                 var userInfo = new UserInfo();
                 userInfo.phone_number = user.msisdn.Replace("+", "");
                 userInfo.termination_date = user.termination_date;
+                userInfo.api_key = user.api_key;
                 userInfo.Save();
 
                 onSuccess?.Invoke("Assinatura validada com sucesso!");

@@ -13,6 +13,7 @@ namespace com.zumstudios.carriersubscription
         public string phone_number;
         public string password;
         public string termination_date;
+        public string api_key;
 
         public UserInfo() { }
 
