@@ -27,6 +27,17 @@ namespace com.zumstudios.carriersubscription
             return (parsedData > DateTime.Now);
         }
 
+        public string GetHumanReadableTerminationDate()
+        {
+            var data = DateTime.ParseExact(
+                termination_date,
+                "yyyy-MM-ddTHH:mm:ss",
+                CultureInfo.InvariantCulture
+            );
+
+            return $"{data.Day}/{data.Month}/{data.Year} - {data.Hour}:{data.Minute}";
+        }
+
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(this);
