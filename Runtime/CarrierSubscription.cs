@@ -181,6 +181,7 @@ namespace com.zumstudios.carriersubscription
                 var userInfo = new UserInfo();
                 userInfo.phone_number = user.msisdn.Replace("+", "");
                 userInfo.termination_date = user.termination_date;
+                userInfo.status = user.status;
                 userInfo.api_key = user.api_key;
                 userInfo.Save();
 
@@ -293,6 +294,7 @@ namespace com.zumstudios.carriersubscription
         )
         {
             bool isSubscribed = false;
+            string status = "";
 
             foreach (var data in dataList)
             {
@@ -310,6 +312,8 @@ namespace com.zumstudios.carriersubscription
                                 capacities.status_label,
                                 CarrierSubscriptionConstants.KLIENTO_SUBSCRIBED_STATUS_LABEL
                             );
+
+                            status = capacities.status_label;
                         }
                     }
                 }
@@ -320,6 +324,7 @@ namespace com.zumstudios.carriersubscription
                 var now = DateTime.Now;
                 now = now.AddDays(7);
                 userInfo.termination_date = now.ToString("yyyy-MM-ddTHH:mm:ss");
+                userInfo.status = status;
                 userInfo.Save();
                 onSuccess?.Invoke("Assinatura validada com sucesso!");
             }

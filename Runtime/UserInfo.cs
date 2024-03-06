@@ -13,17 +13,22 @@ namespace com.zumstudios.carriersubscription
         public string phone_number;
         public string password;
         public string termination_date;
+        public string status;
         public string api_key;
 
         public UserInfo() { }
 
         public bool isSubscribed()
         {
+            if (string.Equals(status, "active") || string.Equals(status, "subscribed"))
+                return true;
+
             var parsedData = DateTime.ParseExact(
                 termination_date,
                 "yyyy-MM-ddTHH:mm:ss",
                 CultureInfo.InvariantCulture
             );
+
             return (parsedData > DateTime.Now);
         }
 
