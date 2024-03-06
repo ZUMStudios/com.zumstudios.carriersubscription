@@ -6,6 +6,6 @@ namespace com.zumstudios.carriersubscription
         public const string KLIENTO_LOGIN = "KLIENTO_LOGIN";
         public const string KLIENTO_LOGIN_WITH_PASSWORD = "KLIENTO_LOGIN_WITH_PASSWORD";
 
-        public const string KLIENTO_OPEN_UE_PRIVACY_POLICY = "KLIENTO_OPEN_UE_PRIVACY_POLICY";
+        public const string KLIENTO_OPEN_EU_PRIVACY_POLICY = "KLIENTO_OPEN_EU_PRIVACY_POLICY";
     }
 }
