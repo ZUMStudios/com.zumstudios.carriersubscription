@@ -15,21 +15,18 @@ namespace com.zumstudios.carriersubscription
 
             if (userInfo != null)
             {
-                if (userInfo.isSubscribed() == false)
+                if (userInfo.password != null)
                 {
-                    if (userInfo.password != null)
-                    {
-                        PasswordLogin(
-                            userInfo.phone_number,
-                            userInfo.password,
-                            OnLoginSuccess,
-                            OnLoginError
-                        );
-                    }
-                    else
-                    {
-                        CascadeLogin(userInfo.phone_number, OnLoginSuccess, OnLoginError);
-                    }
+                    PasswordLogin(
+                        userInfo.phone_number,
+                        userInfo.password,
+                        OnLoginSuccess,
+                        OnLoginError
+                    );
+                }
+                else
+                {
+                    CascadeLogin(userInfo.phone_number, OnLoginSuccess, OnLoginError);
                 }
             }
         }
