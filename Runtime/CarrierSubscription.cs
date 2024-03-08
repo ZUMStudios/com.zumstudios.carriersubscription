@@ -183,6 +183,7 @@ namespace com.zumstudios.carriersubscription
                 userInfo.termination_date = user.termination_date;
                 userInfo.status = user.status;
                 userInfo.api_key = user.api_key;
+                userInfo.isBrazilLogin = true;
                 userInfo.Save();
 
                 onSuccess?.Invoke("Assinatura validada com sucesso!");
@@ -208,12 +209,14 @@ namespace com.zumstudios.carriersubscription
             if (string.IsNullOrEmpty(password) || string.IsNullOrWhiteSpace(password))
             {
                 url.Append(CarrierSubscriptionConstants.KLIENTO_DEFAULT_URL);
+                userInfo.isBrazilLogin = true;
             }
             else
             {
                 url.Append(CarrierSubscriptionConstants.KLIENTO_VALIDATOR_URL);
                 url.Replace("{VALIDATOR}", EncryptionHelper.Encrypt(password));
                 userInfo.password = password;
+                userInfo.isBrazilLogin = false;
             }
 
             url.Replace("{PHONE_NUMBER}", numberWithCountryCode);

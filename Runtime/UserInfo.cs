@@ -15,6 +15,7 @@ namespace com.zumstudios.carriersubscription
         public string termination_date;
         public string status;
         public string api_key;
+        public bool isBrazilLogin;
 
         public UserInfo() { }
 
