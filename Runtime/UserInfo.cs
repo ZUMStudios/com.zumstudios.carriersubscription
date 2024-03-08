@@ -18,31 +18,6 @@ namespace com.zumstudios.carriersubscription
 
         public UserInfo() { }
 
-        public bool isSubscribed()
-        {
-            if (string.Equals(status, "active") || string.Equals(status, "subscribed"))
-                return true;
-
-            var parsedData = DateTime.ParseExact(
-                termination_date,
-                "yyyy-MM-ddTHH:mm:ss",
-                CultureInfo.InvariantCulture
-            );
-
-            return (parsedData > DateTime.Now);
-        }
-
-        public string GetHumanReadableTerminationDate()
-        {
-            var data = DateTime.ParseExact(
-                termination_date,
-                "yyyy-MM-ddTHH:mm:ss",
-                CultureInfo.InvariantCulture
-            );
-
-            return $"{data.Day}/{data.Month}/{data.Year} - {data.Hour}:{data.Minute}";
-        }
-
         public void Save()
         {
             var jsonString = JsonConvert.SerializeObject(this);
@@ -69,6 +44,39 @@ namespace com.zumstudios.carriersubscription
         {
             PlayerPrefs.DeleteKey(CarrierSubscriptionConstants.USERINFO_SAVED_DATA);
             PlayerPrefs.Save();
+        }
+
+        public static bool IsSubscribed()
+        {
+            var user = UserInfo.Load();
+
+            if (user != null)
+            {
+                if (
+                    string.Equals(user.status, "active") || string.Equals(user.status, "subscribed")
+                )
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsSubscribedToProduct(string api_key)
+        {
+            var user = UserInfo.Load();
+
+            if (user != null)
+            {
+                if (
+                    string.Equals(user.status, "active") || string.Equals(user.status, "subscribed")
+                )
+                {
+                    if (string.Equals(user.api_key, api_key))
+                        return true;
+                }
+            }
+
+            return false;
         }
     }
 }
