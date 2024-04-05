@@ -224,7 +224,11 @@ namespace com.zumstudios.carriersubscription
 
             var request = UnityWebRequest.Get(url.ToString());
             request.method = "GET";
-            request.SetRequestHeader("Authorization", $"Basic XXXXX");
+            // request.SetRequestHeader("Authorization", $"Basic XXXXX");
+            request.SetRequestHeader(
+                "Authorization",
+                $"Basic emVyb3VtX2tsaWVudG86WmVya0xpRXREdlMxNCo="
+            );
             request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = 10;
 
