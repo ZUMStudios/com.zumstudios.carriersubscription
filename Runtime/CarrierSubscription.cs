@@ -18,6 +18,8 @@ namespace com.zumstudios.carriersubscription
         private int _mcmId;
         private string _digitalVirgoUser;
         private string _digitalVirgoPassword;
+        private string _klientoUser;
+        private string _klientoPassword;
         private int _atomService_Id;
 
         public static bool EnableLogs;
@@ -32,6 +34,8 @@ namespace com.zumstudios.carriersubscription
             string digitalVirgoUser,
             string digitalVirgoPassword,
             int atomServiceId,
+            string klientoUser = null,
+            string klientoPassword = null,
             Action onInitialized = null
         )
         {
@@ -39,6 +43,8 @@ namespace com.zumstudios.carriersubscription
             _instance._digitalVirgoUser = digitalVirgoUser;
             _instance._digitalVirgoPassword = digitalVirgoPassword;
             _instance._atomService_Id = atomServiceId;
+            _instance._klientoUser = klientoUser;
+            _instance._klientoPassword = klientoPassword;
 
             _isInitialized = true;
 
@@ -91,15 +97,19 @@ namespace com.zumstudios.carriersubscription
             url.Replace("{PHONE_NUMBER}", numberWithCountryCode);
             url.Replace("{MCM_ID}", _mcmId.ToString());
 
-            var userPass = $"{_digitalVirgoUser}:{_digitalVirgoPassword}";
-            var bytes = ASCIIEncoding.ASCII.GetBytes(userPass);
-            var base64userPass = Convert.ToBase64String(bytes);
+            PrintLog(url.ToString());
 
             var request = UnityWebRequest.Get(url.ToString());
             request.method = "GET";
-            request.SetRequestHeader("Authorization", $"Basic {base64userPass}");
-            request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = 10;
+
+            if (_digitalVirgoUser != null && _digitalVirgoPassword != null)
+            {
+                var userPass = $"{_digitalVirgoUser}:{_digitalVirgoPassword}";
+                var bytes = ASCIIEncoding.ASCII.GetBytes(userPass);
+                var base64userPass = Convert.ToBase64String(bytes);
+                request.SetRequestHeader("Authorization", $"Basic {base64userPass}");
+            }
 
             yield return request.SendWebRequest();
 
@@ -117,8 +127,8 @@ namespace com.zumstudios.carriersubscription
                 case UnityWebRequest.Result.Success:
                     try
                     {
+                        PrintLog(request.downloadHandler.text);
                         var jsonString = request.downloadHandler.text;
-                        PrintLog(jsonString);
 
                         if (jsonString.Contains("result_code") || jsonString.Contains("message"))
                         {
@@ -222,15 +232,19 @@ namespace com.zumstudios.carriersubscription
             url.Replace("{PHONE_NUMBER}", numberWithCountryCode);
             url.Replace("{ATOM_SERVICE_ID}", _atomService_Id.ToString());
 
+            PrintLog(url.ToString());
+
             var request = UnityWebRequest.Get(url.ToString());
             request.method = "GET";
-            // request.SetRequestHeader("Authorization", $"Basic XXXXX");
-            // request.SetRequestHeader(
-            //     "Authorization",
-            //     $"Basic emVyb3VtX2tsaWVudG86WmVya0xpRXREdlMxNCo="
-            // );
-            // request.SetRequestHeader("Content-Type", "application/json");
             request.timeout = 10;
+
+            if (_klientoUser != null && _klientoPassword != null)
+            {
+                var userPass = $"{_klientoUser}:{_klientoPassword}";
+                var bytes = ASCIIEncoding.ASCII.GetBytes(userPass);
+                var base64userPass = Convert.ToBase64String(bytes);
+                request.SetRequestHeader("Authorization", $"Basic {base64userPass}");
+            }
 
             yield return request.SendWebRequest();
 
@@ -249,10 +263,11 @@ namespace com.zumstudios.carriersubscription
                 case UnityWebRequest.Result.Success:
                     try
                     {
+                        PrintLog(request.downloadHandler.text);
+
                         var response = JsonConvert.DeserializeObject<KlientoResponse>(
                             request.downloadHandler.text
                         );
-                        PrintLog(request.downloadHandler.text);
 
                         if (response.success)
                             HandleKlientoLoggedData(response.data, userInfo, onSuccess, onError);
@@ -273,12 +288,13 @@ namespace com.zumstudios.carriersubscription
                 case UnityWebRequest.Result.ProtocolError:
                     try
                     {
-                        var response = JsonConvert.DeserializeObject<KlientoResponse>(
-                            request.downloadHandler.text
-                        );
                         PrintLog(request.downloadHandler.text);
 
-                        if (response.success == false)
+                        var errorResponse = JsonConvert.DeserializeObject<KlientoResponse>(
+                            request.downloadHandler.text
+                        );
+
+                        if (errorResponse.success == false)
                             onError?.Invoke("Erro: Usuário ou senha inválido");
                         else
                             onError?.Invoke("Erro de conexão");

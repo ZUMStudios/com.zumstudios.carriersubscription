@@ -7,7 +7,7 @@ namespace com.zumstudios.carriersubscription
     public class KlientoResponse
     {
         public bool success;
-        public bool auth_token;
+        public string auth_token;
         public List<KlientoData> data;
         public List<string> errors;
 
